@@ -3,7 +3,7 @@ name: Deploy
 on:
   workflow_run:
     workflows:
-      - Laravel Pint
+      - Laravel Pint NOT
     types:
       - completed
   release:
