@@ -10,16 +10,16 @@ inputs:
     description: The PHP extensions you want to install.
     required: false
     default: dom, curl, libxml, mbstring, zip, pcntl, pdo, gd, redis, igbinary, msgpack, lzf, zstd, lz4, memcached, gmp, :php-psr
-  nova-email:
-    description: The email used to authenticate Nova.
-    required: true
-  nova-password:
-    description: The password used to authenticate Nova.
-    required: true
-  coverage:
-    description: The coverage driver to use.
+#  nova-email:
+#    description: The email used to authenticate Nova.
+#    required: true
+#  nova-password:
+#    description: The password used to authenticate Nova.
+#    required: true
+  php-tools:
+    description: Any tools you want to include with PHP
     required: false
-    default: none
+    default: composer:v2
 
 runs:
   using: composite
@@ -28,7 +28,7 @@ runs:
       id: get-cache-hash
       with:
         PHP_EXTENSIONS: ${{ inputs.php-extensions }}
-      run: echo hash=$(echo "$PHP_EXTENSIONS" | md5sum | awk '{print $1}') >> $GITHUB_OUTPUT
+      run: echo hash=$(echo $PHP_EXTENSIONS | md5sum) >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Setup cache environment
@@ -53,7 +53,8 @@ runs:
       with:
         php-version: ${{ inputs.php-version }}
         extensions: ${{ inputs.php-extensions }}
-        tools: composer:v2
+        #tools: composer:v2
+        tools: ${{ inputs.php-tools }}
         coverage: ${{ inputs.coverage }}
 
     - name: Get Composer cache dir
@@ -67,10 +68,3 @@ runs:
         key: composer-cache-${{ hashFiles('**/composer.lock') }}
         path: ${{ steps.composer-cache-dir.outputs.dir }}
         restore-keys: composer-cache-
-
-    - name: Authenticate Nova
-      env:
-        NOVA_EMAIL: ${{ inputs.nova-email }}
-        NOVA_PASSWORD: ${{ inputs.nova-password }}
-      run: composer config http-basic.nova.laravel.com "$NOVA_EMAIL" "$NOVA_PASSWORD"
-      shell: bash

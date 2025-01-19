@@ -29,12 +29,14 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Setup PHP and Composer
-        uses: shivammathur/setup-php@2.31.1
+      - name: Setup tooling
+        uses: ./.github/actions/setup
         with:
           php-version: '8.3'
-          tools: composer:v2
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, lzf, zstd, lz4, memcached, gmp, :php-psr
+          php-tools: composer:v2
+          php-extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, lzf, zstd, lz4, memcached, gmp, :php-psr
+#      - name: Setup PHP and Composer
+ #       uses: shivammathur/setup-php@2.31.1
 #          php-extensions: 'json, dom, curl, libxml, mbstring'
 #          nova-email: ${{ secrets.NOVA_EMAIL }}
 #          nova-password: ${{ secrets.NOVA_PASSWORD }}
@@ -52,5 +54,5 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
-        run: php artisan test --compact --coverage --min=75
-#        run: php artisan test --compact
+#        run: php artisan test --compact --coverage --min=75
+        run: php artisan test --compact
