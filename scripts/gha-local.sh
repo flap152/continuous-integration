@@ -7,11 +7,10 @@ export CHROME_DRIVER_LOG=storage/logs/chromedriver.log
 
 #start local cache server, as per https://github.com/NoahHsu/github-act-cache-server
 # build image and start a container(listen 8080 port) - changed to 8101 bc conflits
-#CACHE_SERVER_PATH=/Users/frank/dev/Gits/tests/github-act-cache-server sh -x ./scripts/cache-server.sh &
-#
-#sleep 3
-#
-#curl  -X POST http://localhost:8101/_apis/artifactcache/cache?keys=composer-cache-b89b32c36539ede72fa67d803f95aab95a27a0fcc5c78bcc944ab6ab172286c2%252Ccomposer-cache-&version=e26f2152f1a517079424d03ea43b19c95d245c2ff82b8adaa356e0146502f191
+CACHE_SERVER_PATH=/Users/frank/dev/Gits/tests/github-act-cache-server sh -x ./scripts/cache-server.sh &
+sleep 3
+# Confirm cache server is up or exit
+curl http://localhost:8101/ || exit 21
 
 
 #ensure docker desktop/backend is started
