@@ -13,9 +13,8 @@ curl http://localhost:8101/ || docker compose up --build
 sleep 5
 
 curl http://localhost:8101/ && echo Yes! it is working!!!
-curl -X POST  "http://localhost:8101/_apis/artifactcache/clean" && echo Cleared the cache
+#curl -X POST  "http://localhost:8101/_apis/artifactcache/clean" && echo Cleared the cache
 
+# scratchpad:
 #curl -X POST http://localhost:8101/_apis/artifactcache/ping && echo Yes!
-
-
 #docker compose up --build

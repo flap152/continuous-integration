@@ -1,19 +1,33 @@
---env-file=.env.bak
---input-file .env.bak
+--env-file=.env.bk2
+--input-file .env.bk2
 --secret-file .secrets
--e .github/event.json
---artifact-server-path ./z_scrap/ghaTestResults
 --env ACTIONS_CACHE_URL=http://host.docker.internal:8101/
 --env ACTIONS_RUNTIME_URL=http://host.docker.internal:8101/
 --env ACTIONS_RUNTIME_TOKEN=foo
+#-s APP_ENV=local
+-s GITHUB_TOKEN="$(gh auth token)"
+
+--container-architecture=linux/arm64
+# Was defined twice in section below - check which one "won"
+-P ubuntu-latest=flap152/build1:latest
+#-P ubuntu-latest=flap152-loarm64:latest
+--pull=false
+-P -P nicolaka/netshoot=nicolaka/netshoot
+
+-e .github/event.json
+--artifact-server-path ./z_scrap/ghaTestResults
+
+#
+# No uncommented lines beyond this point please. Copy above as needed
+#
 #--input-file .env.localci
 #
 #-s APP_ENV=localci
--s APP_ENV=local
--s GITHUB_TOKEN="$(gh auth token)"
+#-s APP_ENV=local
+#-s GITHUB_TOKEN="$(gh auth token)"
 #
 #--container-architecture=linux/amd64
---container-architecture=linux/arm64
+#--container-architecture=linux/arm64
 #-P ubuntu-latest=flap152/act-ubuntu-22.04:latest
 #--platform linux/arm64/v8,linux/amd64
 #
@@ -26,8 +40,8 @@
 #-P ghact-darwin-arm64=-self-hosted
 #-P ghact-darwin-arm64=ghact-darwin-arm64
 #-P ubuntu-latest=catthehacker/ubuntu:act-latest
--P ubuntu-latest=flap152-loarm64:latest
--P ubuntu-latest=flap152/build1:latest
---pull=false
--P -P nicolaka/netshoot=nicolaka/netshoot
+#-P ubuntu-latest=flap152-loarm64:latest # Does not work with: --container-architecture=linux/arm64 ?
+#-P ubuntu-latest=flap152/build1:latest
+#--pull=false
+#-P -P nicolaka/netshoot=nicolaka/netshoot
 #-P ubuntu-latest=ghact-darwin-arm64

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Dotenv\Dotenv;
+use Illuminate\Support\Env;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+//        dd(collect(  $_ENV)->sortKeys()->toArray());
+//        var_dump($_ENV);
+//        dd(app( Dotenv::class)->load());
+//        app(Env::class)->afterLoadingEnvironment(function ($args) {
+//
+//            dd($args);
+//        });
         //
     }
 }

@@ -28,4 +28,5 @@ open -g -a docker && while ! docker info > /dev/null 2>&1; do sleep 1 ; done
 #cp .env .env.bak
 #act -W ./.github/workflows/laravel.yml  -j laravel-tests --env-file=.env.bak -s GITHUB_TOKEN="$(gh auth token)" --container-options='-p 8000:8000 --privileged -P'
 #act -W ./.github/backup/laravelWithLocal.yml  -j laravel-tests --env-file=.env.localci -s GITHUB_TOKEN="$(gh auth token)" --container-options='-p 8000:8000 -p 3606:3606 --privileged -P'
-act -W ./.github/workflows/tests.yml  --env-file=.env.bak -s GITHUB_TOKEN="$(gh auth token)" --container-options='-p 8000:8000 -p 3606:3606 --privileged -P'
+#act -W ./.github/workflows/tests.yml  --env-file=.env.bak -s GITHUB_TOKEN="$(gh auth token)" --container-options='-p 8000:8000 -p 3606:3606 --privileged -P'
+act -W ./.github/workflows/tests.yml  -s GITHUB_TOKEN="$(gh auth token)" --container-options='-p 8000:8000 -p 3606:3606 --privileged -P'
