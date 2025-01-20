@@ -28,7 +28,7 @@ runs:
       id: get-cache-hash
       with:
         PHP_EXTENSIONS: ${{ inputs.php-extensions }}
-      run: echo hash=$(echo $PHP_EXTENSIONS | md5sum) >> $GITHUB_OUTPUT
+      run: echo hash=$(echo "$PHP_EXTENSIONS" | md5sum | awk '{print $1}') >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Setup cache environment
@@ -50,6 +50,7 @@ runs:
 
     - name: Setup PHP and Composer
       uses: shivammathur/setup-php@v2
+      if: false == true
       with:
         php-version: ${{ inputs.php-version }}
         extensions: ${{ inputs.php-extensions }}
@@ -68,3 +69,4 @@ runs:
         key: composer-cache-${{ hashFiles('**/composer.lock') }}
         path: ${{ steps.composer-cache-dir.outputs.dir }}
         restore-keys: composer-cache-
+

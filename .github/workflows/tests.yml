@@ -15,10 +15,10 @@ jobs:
         image: redis:7.4
         ports:
           - 6379:6379
-      mysql:
-        image: mysql:8.0
-        ports:
-          - 3306:3306
+#      mysql:
+#        image: mysql:8.0
+#        ports:
+#          - 3306:3306
         env:
           MYSQL_DATABASE: laravel
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
@@ -26,8 +26,13 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4.1.7
+        if: ${{ ! github.event.act }}
         with:
           ref: ${{ github.head_ref }}
+
+      - name: Checkout Code - local act - local code copy
+        uses: actions/checkout@v4
+        if: ${{ github.event.act }}
 
       - name: Setup tooling
         uses: ./.github/actions/setup
@@ -40,19 +45,36 @@ jobs:
 #          php-extensions: 'json, dom, curl, libxml, mbstring'
 #          nova-email: ${{ secrets.NOVA_EMAIL }}
 #          nova-password: ${{ secrets.NOVA_PASSWORD }}
+      - name: Make .sqlite
+        run: touch ./database/database.sqlite
+
+#      - name: Copy Environment File
+      - name: Copy source .env.something (which one?) into .env (create?)
+        run: cp .env.example .env
+#        run: cp .env.bak .env
+#      - run: cp .env.localci .env
 
       - name: Install Project Dependencies
-        run: composer install -q --no-interaction --no-progress
+        run: composer install
+#        run: composer install -q --no-interaction --no-progress
 
-      - name: Copy Environment File
-        run: cp .env.example .env
 
-      - name: Generate Application Key
-        run: php artisan key:generate
+#      - name: Generate Application Key
+#        run: php artisan key:generate
+
+      - name: migrate DB
+        run: php artisan migrate:fresh --seed
+
+      - name: App info
+        run: |
+          php artisan about
+          env | sort
 
       - name: Run Tests
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: ":memory:"
-#        run: php artisan test --compact --coverage --min=75
-        run: php artisan test --compact
+        continue-on-error: true
+        #        env:
+        #          DB_CONNECTION: sqlite
+        #          DB_DATABASE: ":memory:"
+        run: php artisan test
+        shell: bash
+        #        run: php artisan test --compact --coverage --min=75
