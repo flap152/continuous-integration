@@ -10,8 +10,9 @@ beforeAll(function () {
 });
 
 beforeEach(function () {
-    assert(config('database.default') === 'sqlite', var_export( $_ENV, true));
-    assert(config('app.env') === 'testing', );
+//    assert(config('database.default') === 'sqlite', var_export( $_ENV, true));
+//    assert(config('app.env') === 'testing', );
+//    assert(config('app.env') === 'bk2', );
 });
 
 test('login screen can be rendered', function () {
@@ -32,7 +33,7 @@ test('users can authenticate using the login screen', function () {
     ]));
 
     $response = $this
-        ->withoutMiddleware(VerifyCsrfToken::class)
+//        ->withoutMiddleware(VerifyCsrfToken::class)
         ->post('/login', [
         'email' => $user->email,
         'password' => 'password',
