@@ -5,6 +5,14 @@ on:
     branches:
       - main
       - dev*
+      - integration
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+      - integration
+      - 'dev/**/*'
+      - 'dev*/**/*'
 
 jobs:
   tests:
