@@ -20,7 +20,7 @@ jobs:
     env:
       DB_CONNECTION: sqlite
 #      DB_DATABASE: ":memory:"
-      DB_DATABASE: database
+#      DB_DATABASE: database.sqlite
       APP_KEY: "base64:GC/9TmNKSDyHPi65pZdJf92eoIa0pRWQAkCnJ+MKYHo="
       APP_ENV: local
     services:
@@ -104,7 +104,8 @@ jobs:
         run: |
           php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
           chmod 664 database/database.sqlite
-          php artisan migrate --graceful --ansi --force --env=bk2
+          env | sort
+          php artisan migrate -vvv --graceful --ansi --force --env=testing
 
       - name: App info - local
         run: |
@@ -126,8 +127,7 @@ jobs:
 #          DB_DATABASE: database
           APP_KEY: "base64:GC/9TmNKSDyHPi65pZdJf92eoIa0pRWQAkCnJ+MKYHo="
         run: |
-          php artisan test --env=bk2 --compact || echo contineur
-          #php artisan test --env=example --compact || echo contineur
+          php artisan test --env=testing --compact || echo contineur
           #php artisan test --env=localci --compact  || echo contineur
 #        shell: bash
 

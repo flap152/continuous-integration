@@ -1,5 +1,5 @@
---env-file=.env.bk2
---input-file .env.bk2
+--env-file=.env.testing
+--input-file .env.testing
 --secret-file .secrets
 --env ACTIONS_CACHE_URL=http://host.docker.internal:8101/
 --env ACTIONS_RUNTIME_URL=http://host.docker.internal:8101/
