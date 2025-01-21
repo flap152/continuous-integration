@@ -22,7 +22,7 @@ jobs:
 #      DB_DATABASE: ":memory:"
 #      DB_DATABASE: database.sqlite
       APP_KEY: "base64:GC/9TmNKSDyHPi65pZdJf92eoIa0pRWQAkCnJ+MKYHo="
-      APP_ENV: local
+      APP_ENV: testing
     services:
       redis:
         image: redis:7.4
